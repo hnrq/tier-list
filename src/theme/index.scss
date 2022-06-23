@@ -1,0 +1,14 @@
+@use "utils";
+
+:root {
+  --base-primary-color: 56deg 100%;
+  --base-text-color: 355deg 0%;
+  --background: hsl(0 0% 100%);
+  @include utils.generate-palette(var(--base-primary-color), "primary");
+  @include utils.generate-text-palette(var(--base-text-color));
+}
+
+html {
+  background-color: var(--background);
+  color: var(--text-high);
+}

@@ -1,0 +1,36 @@
+@use "./mixins";
+
+@mixin spacing-axis($axis, $spacing-type, $spacing) {
+  @if $axis == "x" {
+    #{$spacing-type}-left: $spacing;
+    #{$spacing-type}-right: $spacing;
+  } @else {
+    #{$spacing-type}-top: $spacing;
+    #{$spacing-type}-bottom: $spacing;
+  }
+}
+
+@each $spacing-type in ("margin", "padding") {
+  @for $i from 0 to 6 {
+    $spacing-type-initial: str-slice($spacing-type, 0, 1);
+    $spacing: mixins.spacing($i);
+
+    .#{$spacing-type-initial}-#{$i} {
+      #{$spacing-type}: $spacing;
+    }
+
+    @each $axis in ("x", "y") {
+      .#{$spacing-type-initial}#{$axis}-#{$i} {
+        @include spacing-axis($axis, $spacing-type, $spacing);
+      }
+    }
+
+    @each $side in ("top", "left", "right", "bottom") {
+      $side-initial: str-slice($side, 0, 1);
+
+      .#{$spacing-type-initial}#{$side-initial}-#{$i} {
+        #{$spacing-type}-#{$side}: $spacing;
+      }
+    }
+  }
+}
