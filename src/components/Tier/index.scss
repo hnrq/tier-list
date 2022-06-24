@@ -1,6 +1,6 @@
 @use '../../theme/utils';
 
-.rank {
+.tier {
   display: flex;
   border: 4px solid var(--text-high);
   min-height: calc(10.5rem + utils.spacing(2));

@@ -3,12 +3,12 @@ import { render } from 'solid-testing-library';
 import products from '__mocks__/products';
 import { SortableProvider } from 'context/sortable';
 
-import Rank, { RankProps } from '.';
+import Tier, { TierProps } from '.';
 
-const renderRank = (props: Partial<RankProps>) =>
+const renderTier = (props: Partial<TierProps>) =>
   render(() => (
     <SortableProvider options={{ draggable: '' }}>
-      <Rank
+      <Tier
         title="A"
         label="Great"
         items={[]}
@@ -18,24 +18,24 @@ const renderRank = (props: Partial<RankProps>) =>
     </SortableProvider>
   ));
 
-describe('<Rank />', () => {
+describe('<Tier />', () => {
   it('renders a title', () => {
     const title = 'S';
-    const { getByText } = renderRank({ title });
+    const { getByText } = renderTier({ title });
 
     expect(getByText(title)).toBeInTheDocument();
   });
 
   it('renders a label', () => {
     const label = 'SUPERB!';
-    const { getByText } = renderRank({ label });
+    const { getByText } = renderTier({ label });
 
     expect(getByText(label)).toBeInTheDocument();
   });
 
   describe('items', () => {
     it('renders items', () => {
-      const { getByText } = renderRank({
+      const { getByText } = renderTier({
         items: products.map(({ name }) => name),
       });
 
@@ -46,7 +46,7 @@ describe('<Rank />', () => {
 
     it('optionally renders a custom Item component if renderFunction is provided', () => {
       const testId = 'custom-item';
-      const { getAllByTestId } = renderRank({
+      const { getAllByTestId } = renderTier({
         items: products.map(({ name }) => name),
         renderItem: (item: Element) => <h1 data-testid={testId}>{item}</h1>,
       });
