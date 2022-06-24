@@ -7,8 +7,9 @@ import Tier, { TierProps } from '.';
 
 const renderTier = (props: Partial<TierProps>) =>
   render(() => (
-    <SortableProvider options={{ draggable: '' }}>
+    <SortableProvider options={{ draggable: '.object' }}>
       <Tier
+        id="1"
         title="A"
         label="Great"
         items={[]}

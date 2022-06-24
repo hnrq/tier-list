@@ -15,6 +15,7 @@ const Product: Component<ProductProps> = (_props) => {
   return (
     <div
       class="product"
+      data-id={props.id}
       classList={{
         'product--draggable': props.draggable,
       }}
