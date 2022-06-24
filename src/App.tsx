@@ -1,13 +1,39 @@
-import { Component, createSignal } from "solid-js";
-import "theme/index.scss";
+import { Component, For, onMount } from 'solid-js';
+
+import { Sortable, Plugins } from '@shopify/draggable';
+
+import mockProducts from '__mocks__/products';
+import Product from 'components/Product';
+
+import 'theme/index.scss';
 
 const App: Component = () => {
-  const [counter, setCounter] = createSignal(0);
-  setInterval(setCounter, 1000, (c: number) => c + 1);
+  let containerRef: HTMLDivElement;
+
+  onMount(() => {
+    new Sortable(containerRef, {
+      draggable: '.product--draggable',
+      plugins: [Plugins.SortAnimation],
+      sortAnimation: {
+        duration: 200,
+        easingFunction: 'ease-in-out',
+      },
+    });
+  });
 
   return (
-    <div>
-      <h1 class="header">{counter()}</h1>
+    <div
+      ref={containerRef}
+      style={{
+        display: 'flex',
+        'flex-direction': 'row',
+        'flex-wrap': 'wrap',
+        gap: '16px',
+      }}
+    >
+      <For each={mockProducts}>
+        {(product) => <Product draggable {...product} />}
+      </For>
     </div>
   );
 };
