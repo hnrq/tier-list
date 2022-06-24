@@ -4,24 +4,18 @@ import mockProducts from '__mocks__/products';
 import Product from 'components/Product';
 import { useSortable } from 'context/sortable';
 
+import './index.scss';
+
 const Products: Component = () => {
   const sortable = useSortable();
   let productsRef;
 
   onMount(() => {
-    console.log(sortable);
     sortable().addContainer(productsRef);
   });
 
   return (
-    <div
-      ref={productsRef}
-      style={{
-        display: 'flex',
-        'flex-wrap': 'wrap',
-        gap: '16px',
-      }}
-    >
+    <div data-id="unranked" ref={productsRef}>
       <For each={Object.values(mockProducts)}>
         {(product) => <Product draggable {...product} />}
       </For>
