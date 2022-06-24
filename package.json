@@ -1,13 +1,15 @@
 {
-  "name": "vite-template-solid",
+  "name": "tier-list",
   "version": "0.0.0",
   "description": "",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "test": "vitest",
     "build": "vite build",
     "serve": "vite preview",
     "prepare": "husky install",
+    "postinstall": "node ./fix-jest-dom.mjs",
     "format": "prettier --write '**/*.{js,json,md,yml,yaml,css,scss,ts,tsx,html,vue}'",
     "typecheck": "tsc --noEmit",
     "lint-staged": "lint-staged",
@@ -24,20 +26,20 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-plugin-solid": "^0.7.0",
-    "husky": "^8.0.0",
+    "husky": "^8.0.1",
     "jsdom": "^20.0.0",
     "lint-staged": "^13.0.2",
-    "sass": "^1.52.1",
+    "sass": "^1.53.0",
     "solid-testing-library": "^0.3.0",
-    "typescript": "^4.6.4",
-    "vite": "^2.9.9",
+    "typescript": "^4.7.4",
+    "vite": "^2.9.12",
     "vite-plugin-solid": "^2.2.6",
     "vite-tsconfig-paths": "^3.5.0",
     "vitest": "^0.15.2"
   },
   "dependencies": {
-    "@shopify/draggable": "1.0.0-beta.8",
-    "solid-js": "^1.4.2"
+    "@shopify/draggable": "1.0.0-beta.12",
+    "solid-js": "^1.4.4"
   },
   "lint-staged": {
     "*.{ts,tsx}": "eslint --cache --fix"
