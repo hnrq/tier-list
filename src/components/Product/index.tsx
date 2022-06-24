@@ -1,12 +1,10 @@
 import { Component, createMemo, mergeProps, Show } from 'solid-js';
 
+import { Product as ProductType } from 'reducers/tierList';
+
 import './index.scss';
 
-export interface ProductProps {
-  image: string;
-  name: string;
-  price: number;
-  vendor: string;
+export interface ProductProps extends ProductType {
   draggable?: boolean;
 }
 

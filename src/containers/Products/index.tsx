@@ -22,7 +22,7 @@ const Products: Component = () => {
         gap: '16px',
       }}
     >
-      <For each={mockProducts}>
+      <For each={Object.values(mockProducts)}>
         {(product) => <Product draggable {...product} />}
       </For>
     </div>

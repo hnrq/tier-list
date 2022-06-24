@@ -36,10 +36,10 @@ describe('<Tier />', () => {
   describe('items', () => {
     it('renders items', () => {
       const { getByText } = renderTier({
-        items: products.map(({ name }) => name),
+        items: Object.values(products).map(({ name }) => name),
       });
 
-      products.forEach(({ name }) => {
+      Object.values(products).forEach(({ name }) => {
         expect(getByText(name)).toBeInTheDocument();
       });
     });
@@ -47,11 +47,11 @@ describe('<Tier />', () => {
     it('optionally renders a custom Item component if renderFunction is provided', () => {
       const testId = 'custom-item';
       const { getAllByTestId } = renderTier({
-        items: products.map(({ name }) => name),
+        items: Object.values(products).map(({ name }) => name),
         renderItem: (item: Element) => <h1 data-testid={testId}>{item}</h1>,
       });
 
-      expect(getAllByTestId(testId)).toHaveLength(products.length);
+      expect(getAllByTestId(testId)).toHaveLength(Object.keys(products).length);
     });
   });
 });

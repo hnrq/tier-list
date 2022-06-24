@@ -5,6 +5,7 @@ import Product, { ProductProps } from '.';
 const renderProduct = (props: Partial<ProductProps>) =>
   render(() => (
     <Product
+      id="1"
       image="https://picsum.photos/200/300"
       name="Product"
       vendor="Vendor"
