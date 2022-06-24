@@ -1,41 +1,32 @@
-import { Component, For, onMount } from 'solid-js';
+import { Component } from 'solid-js';
 
-import { Sortable, Plugins } from '@shopify/draggable';
-
-import mockProducts from '__mocks__/products';
-import Product from 'components/Product';
+import Product, { ProductProps } from 'components/Product';
+import Rank from 'components/Rank';
+import Products from 'containers/Products';
+import { SortableProvider } from 'context/sortable';
 
 import 'theme/index.scss';
 
-const App: Component = () => {
-  let containerRef: HTMLDivElement;
-
-  onMount(() => {
-    new Sortable(containerRef, {
-      draggable: '.product--draggable',
-      plugins: [Plugins.SortAnimation],
-      sortAnimation: {
-        duration: 200,
-        easingFunction: 'ease-in-out',
-      },
-    });
-  });
-
-  return (
+const App: Component = () => (
+  <SortableProvider options={{ draggable: '.product--draggable' }}>
     <div
-      ref={containerRef}
       style={{
         display: 'flex',
-        'flex-direction': 'row',
-        'flex-wrap': 'wrap',
+        'flex-direction': 'column',
         gap: '16px',
       }}
     >
-      <For each={mockProducts}>
-        {(product) => <Product draggable {...product} />}
-      </For>
+      <Rank
+        title="SSS"
+        label="perfect"
+        items={[]}
+        renderItem={(product: ProductProps) => (
+          <Product draggable {...product} />
+        )}
+      />
     </div>
-  );
-};
+    <Products />
+  </SortableProvider>
+);
 
 export default App;
