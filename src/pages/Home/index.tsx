@@ -10,6 +10,7 @@ const Home: Component<unknown> = () => {
   return (
     <div class="home">
       <Tier
+        id="1"
         title="SSS"
         label="perfect"
         items={[]}
