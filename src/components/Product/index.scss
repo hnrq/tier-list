@@ -1,0 +1,78 @@
+@use '../../theme/utils';
+
+.product {
+  max-width: 8rem;
+  height: 10.5rem;
+
+  @include utils.add-shadow('product__content');
+
+  &--draggable {
+    &:hover {
+      cursor: grab;
+    }
+
+    &.draggable-mirror {
+      cursor: grabbing;
+      & .product__content {
+        transform: scale(1.1);
+      }
+    }
+
+    &.draggable-source--is-dragging {
+      transform: translateZ(0);
+      opacity: 0.5;
+    }
+  }
+
+  &__content {
+    border: 4px solid var(--text-high);
+    box-sizing: border-box;
+    height: 10.5rem;
+    display: flex;
+    flex-direction: column;
+    background: var(--background);
+    @include utils.spacing-axis('x', 'padding', utils.spacing(1));
+  }
+
+  &__image {
+    height: 4rem;
+    @include utils.spacing-axis('y', 'padding', 0.25rem);
+    object-fit: contain;
+  }
+
+  &__name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    max-height: 2.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__vendor {
+    font-size: 0.75rem;
+    color: var(--text-medium);
+  }
+
+  &__price {
+    margin-left: auto;
+    margin-top: auto;
+    display: flex;
+    font-weight: 600;
+    align-items: baseline;
+  }
+
+  &__dollar-sign {
+    font-size: 0.75rem;
+    color: var(--text-low);
+  }
+
+  &__dollar {
+    font-size: 1.25rem;
+  }
+
+  &__cents {
+    font-size: 0.75rem;
+  }
+}
