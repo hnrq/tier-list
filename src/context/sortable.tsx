@@ -13,7 +13,7 @@ import { Draggable, Sortable } from '@shopify/draggable';
 const SortableContext = createContext<Accessor<Draggable>>();
 
 interface SortableProviderProps {
-  options: typeof Sortable.arguments[1];
+  options: ConstructorParameters<typeof Sortable>[1];
   containers?: HTMLElement[];
 }
 
