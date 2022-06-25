@@ -15,7 +15,7 @@ const Products: Component = () => {
   });
 
   return (
-    <div data-id="unranked" ref={productsRef}>
+    <div class="products" data-id="unranked" ref={productsRef}>
       <For each={Object.values(mockProducts)}>
         {(product) => <Product draggable {...product} />}
       </For>

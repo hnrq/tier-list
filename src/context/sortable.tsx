@@ -8,9 +8,9 @@ import {
   useContext,
 } from 'solid-js';
 
-import { Draggable, Sortable } from '@shopify/draggable';
+import { Sortable } from '@shopify/draggable';
 
-const SortableContext = createContext<Accessor<Draggable>>();
+const SortableContext = createContext<Accessor<Sortable>>();
 
 interface SortableProviderProps {
   options: ConstructorParameters<typeof Sortable>[1];

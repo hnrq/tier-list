@@ -21,7 +21,7 @@ const Tier: Component<TierProps> = (props) => {
     sortable().addContainer(itemContainerRef);
   });
   return (
-    <div data-id={props.id} class="tier">
+    <div class="tier">
       <div
         class="tier__title-container"
         style={{ 'background-color': props.color ?? randomColor() }}
@@ -29,7 +29,11 @@ const Tier: Component<TierProps> = (props) => {
         <span class="tier__title">{props.title}</span>
         <span class="tier__label">{props.label}</span>
       </div>
-      <div class="tier__item-container" ref={itemContainerRef}>
+      <div
+        data-id={props.id}
+        class="tier__item-container"
+        ref={itemContainerRef}
+      >
         <For each={props.items}>{(item) => props.renderItem(item)}</For>
       </div>
     </div>
