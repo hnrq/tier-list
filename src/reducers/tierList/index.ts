@@ -1,13 +1,16 @@
 import { createReducer } from '@reduxjs/toolkit';
 import shortId from 'shortid';
 
+import mockProducts from '__mocks__/products';
+import mockTiers from '__mocks__/tiers';
+
 import * as actions from './actions';
 
 export interface Tier {
   id: string;
   title: string;
   label: string;
-  items: Record<string, Product>;
+  items: Product[];
 }
 
 export interface Product {
@@ -20,39 +23,54 @@ export interface Product {
 
 export interface TierList {
   tiers: Record<string, Tier>;
-  unrankedProducts: Record<string, Product>;
+  unrankedProducts: Product[];
 }
 
 export const initialState: TierList = {
-  tiers: {},
-  unrankedProducts: {},
+  tiers: mockTiers,
+  unrankedProducts: mockProducts,
 };
 
 export default createReducer(initialState, (builder) => {
   builder
-    .addCase(actions.addProduct, (state, action) => {
-      const { product } = action.payload;
-      state.unrankedProducts[product.id] = product;
+    .addCase(actions.addProducts, (state, action) => {
+      const { products } = action.payload;
+      state.unrankedProducts = [...state.unrankedProducts, ...products];
     })
     .addCase(actions.removeProduct, (state, action) => {
       const { from, id } = action.payload;
-      if (action.payload.from === 'unranked') delete state.unrankedProducts[id];
-      else delete state.tiers[from].items[id];
+      if (action.payload.from === 'unranked')
+        state.unrankedProducts = state.unrankedProducts.filter(
+          (product) => product.id !== id
+        );
+      else
+        state.tiers[from].items = state.tiers[from].items.filter(
+          (product) => product.id !== id
+        );
     })
     .addCase(actions.moveProduct, (state, action) => {
       const { id, from, to } = action.payload;
       let productToBeMoved;
 
-      if (from === 'unranked') {
-        productToBeMoved = state.unrankedProducts[id];
-        delete state.unrankedProducts[id];
+      if (from.id === 'unranked') {
+        state.unrankedProducts = state.unrankedProducts
+          .map((product) => {
+            if (product.id === id) productToBeMoved = product;
+            else return product;
+          })
+          .filter(Boolean);
       } else {
-        productToBeMoved = state.tiers[from].items[id];
-        delete state.tiers[from].items[id];
+        state.tiers[from.id].items = state.tiers[from.id].items
+          .map((product) => {
+            if (product.id === id) productToBeMoved = product;
+            else return product;
+          })
+          .filter(Boolean);
       }
 
-      if (to === 'unranked') state.unrankedProducts[id] = productToBeMoved;
-      else state.tiers[to].items[id] = productToBeMoved;
+      if (to.id === 'unranked')
+        state.unrankedProducts.splice(to.index, 0, productToBeMoved);
+      else state.tiers[to.id].items.splice(to.index, 0, productToBeMoved);
     })
     .addCase(actions.removeTier, (state, action) => {
       const { id } = action.payload;
@@ -66,6 +84,6 @@ export default createReducer(initialState, (builder) => {
     .addCase(actions.addTier, (state, action) => {
       const { title, label } = action.payload;
       const id = shortId.generate();
-      state.tiers[id] = { id, title, label, items: {} };
+      state.tiers[id] = { id, title, label, items: [] };
     });
 });

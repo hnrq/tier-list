@@ -2,7 +2,7 @@ import { createAction } from '@reduxjs/toolkit';
 
 import { Product } from '.';
 
-export const addProduct = createAction<{ product: Product }>(
+export const addProducts = createAction<{ products: Product[] }>(
   'tierList/addProduct'
 );
 export const removeProduct = createAction<{ id: string; from: string }>(
@@ -10,8 +10,8 @@ export const removeProduct = createAction<{ id: string; from: string }>(
 );
 export const moveProduct = createAction<{
   id: string;
-  from: string;
-  to: string;
+  from: { id: string; index: number };
+  to: { id: string; index: number };
 }>('tierList/moveProduct');
 export const removeTier = createAction<{ id: string }>('tierList/removeTier');
 export const addTier = createAction<{ title: string; label: string }>(
