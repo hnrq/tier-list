@@ -8,6 +8,7 @@
   &__title-container {
     display: flex;
     flex-direction: column;
+    width: 4rem;
     align-items: center;
     justify-content: center;
     padding: utils.spacing(2);
