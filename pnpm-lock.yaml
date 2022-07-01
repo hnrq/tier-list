@@ -2,7 +2,6 @@ lockfileVersion: 5.4
 
 specifiers:
   '@reduxjs/toolkit': ^1.8.2
-  '@shopify/draggable': 1.0.0-beta.12
   '@testing-library/jest-dom': ^5.16.4
   '@types/testing-library__jest-dom': ^5.14.5
   '@typescript-eslint/eslint-plugin': ^5.29.0
@@ -27,7 +26,6 @@ specifiers:
 
 dependencies:
   '@reduxjs/toolkit': 1.8.2
-  '@shopify/draggable': 1.0.0-beta.12
   shortid: 2.2.16
   solid-js: 1.4.4
 
@@ -498,10 +496,6 @@ packages:
       redux: 4.2.0
       redux-thunk: 2.4.1_redux@4.2.0
       reselect: 4.1.6
-    dev: false
-
-  /@shopify/draggable/1.0.0-beta.12:
-    resolution: {integrity: sha512-Un/Dn61sv2er9yjDXLGWMauCOWBb0BMbm0yzmmrD+oUX2/x50yhNJASTsCRdndUCpWlqYfZH8jEfaOgTPsKc/g==}
     dev: false
 
   /@sinclair/typebox/0.23.5:
