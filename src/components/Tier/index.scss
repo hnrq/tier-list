@@ -3,7 +3,15 @@
 .tier {
   display: flex;
   border: 4px solid var(--text-high);
-  min-height: calc(10.5rem + utils.spacing(2));
+  min-height: calc(8.5rem + utils.spacing(2));
+  border-bottom: none;
+  &:last-child {
+    border-bottom: 4px solid var(--text-high);
+  }
+
+  @include utils.breakpoint-down('sm') {
+    flex-direction: column;
+  }
 
   &__title-container {
     display: flex;
@@ -13,6 +21,17 @@
     justify-content: center;
     padding: utils.spacing(2);
     border-right: 4px solid var(--text-high);
+
+    @include utils.breakpoint-down('sm') {
+      border-right: 0;
+      width: initial;
+      gap: utils.spacing(2);
+      justify-content: start;
+      padding: 0;
+      padding-left: utils.spacing(2);
+      border-bottom: 4px solid var(--text-high);
+      flex-direction: row;
+    }
   }
 
   &__title {

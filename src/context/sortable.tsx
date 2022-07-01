@@ -8,7 +8,7 @@ import {
   useContext,
 } from 'solid-js';
 
-import { Sortable } from '@shopify/draggable';
+import { Sortable } from '@draggable/draggable.es';
 
 const SortableContext = createContext<Accessor<Sortable>>();
 

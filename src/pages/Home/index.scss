@@ -1,5 +1,21 @@
+@use '../../theme/utils';
+
 .home {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  &__product-menu {
+    transition: right 0.2s ease-in-out;
+    position: fixed;
+    width: 16rem;
+    top: 0;
+    right: calc(-1 * (17rem + utils.spacing(2)));
+    height: 100%;
+    background: var(--background);
+    padding: utils.spacing(2);
+    overflow-y: scroll;
+    overflow-x: visible;
+    &.open {
+      right: 0;
+    }
+  }
 }
