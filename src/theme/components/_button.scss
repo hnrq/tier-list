@@ -1,0 +1,21 @@
+@use '../utils';
+
+.button {
+  border: 0;
+  font-family: Overpass;
+  font-weight: 700;
+  text-transform: uppercase;
+  &:hover {
+    cursor: pointer;
+  }
+
+  &--link {
+    color: var(--color-primary-50);
+    background: none;
+  }
+
+  &--contained {
+    background-color: var(--color-primary-50);
+    border: 4px solid var(--text-high);
+  }
+}
