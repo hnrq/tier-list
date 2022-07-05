@@ -1,8 +1,8 @@
 @use '../../theme/utils';
 
 .product {
-  max-width: 7rem;
-  height: 8.5rem;
+  max-width: 6.5rem;
+  height: 8rem;
 
   @include utils.add-shadow('product__content');
 
@@ -27,7 +27,7 @@
   &__content {
     border: 4px solid var(--text-high);
     box-sizing: border-box;
-    height: 8.5rem;
+    height: 8rem;
     display: flex;
     flex-direction: column;
     background: var(--background);
