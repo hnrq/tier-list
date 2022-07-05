@@ -1,5 +1,36 @@
-.products {
+@use '../../theme/utils';
+
+.tiers {
   display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
+  flex-direction: column;
+  @include utils.spacing-axis('x', 'margin', utils.spacing(1));
+  overflow-y: auto;
+
+  &__header {
+    position: sticky;
+    top: 0;
+    display: flex;
+    z-index: 1;
+    gap: utils.spacing(1);
+    background-color: var(--background);
+  }
+
+  &__title {
+    padding-left: utils.spacing(1);
+    @include utils.spacing-axis('y', 'margin', utils.spacing(1));
+  }
+
+  &__items {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @include utils.breakpoint-down('md') {
+    &__header {
+      position: sticky;
+      background: var(--background);
+      top: 0;
+    }
+  }
 }

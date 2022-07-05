@@ -12,16 +12,22 @@ const Tiers: Component = () => {
 
   return (
     <div class="tiers">
-      <For each={Object.values(tierList.tiers)}>
-        {(tier) => (
-          <Tier
-            renderItem={(product: ProductType) => (
-              <Product draggable {...product} />
-            )}
-            {...tier}
-          />
-        )}
-      </For>
+      <div class="tiers__header">
+        <h2 class="tiers__title">Tiers</h2>
+        <button class="button button--link">Add Tier</button>
+      </div>
+      <div class="tiers__items">
+        <For each={Object.values(tierList.tiers)}>
+          {(tier) => (
+            <Tier
+              renderItem={(product: ProductType) => (
+                <Product draggable {...product} />
+              )}
+              {...tier}
+            />
+          )}
+        </For>
+      </div>
     </div>
   );
 };
