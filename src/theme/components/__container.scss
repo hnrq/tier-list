@@ -1,0 +1,8 @@
+@use '../utils';
+
+@each $key, $value in utils.$breakpoints {
+  .container-#{$key} {
+    max-width: $value;
+    @include utils.spacing-axis('x', 'margin', auto);
+  }
+}
