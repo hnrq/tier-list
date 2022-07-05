@@ -1,4 +1,5 @@
 @use 'utils';
+@use 'components';
 
 @import url('https://fonts.googleapis.com/css2?family=Overpass:wght@400..800&display=swap');
 
@@ -22,4 +23,12 @@ html {
   @include utils.breakpoint-down('sm') {
     font-size: 14px;
   }
+}
+
+body {
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
 }
