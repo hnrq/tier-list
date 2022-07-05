@@ -1,4 +1,4 @@
-import { Component, onMount, createSignal } from 'solid-js';
+import { Component, onMount } from 'solid-js';
 
 import Products from 'containers/Products';
 import Tiers from 'containers/Tiers';
@@ -9,7 +9,6 @@ import { moveProduct } from 'reducers/tierList/actions';
 import './index.scss';
 
 const Home: Component<unknown> = () => {
-  const [productCollapse, setProductCollapse] = createSignal(true);
   const sortable = useSortable();
   const [_tierList, dispatch] = useTierList();
 
@@ -36,19 +35,9 @@ const Home: Component<unknown> = () => {
   });
 
   return (
-    <div class="home">
+    <div class="home container-lg">
       <Tiers />
-      <button onClick={() => setProductCollapse((collapse) => !collapse)}>
-        Show Products
-      </button>
-      <div
-        class="home__product-menu"
-        classList={{
-          open: !productCollapse(),
-        }}
-      >
-        <Products />
-      </div>
+      <Products />
     </div>
   );
 };

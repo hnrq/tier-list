@@ -1,21 +1,13 @@
 @use '../../theme/utils';
 
 .home {
-  display: flex;
-  flex-direction: column;
-  &__product-menu {
-    transition: right 0.2s ease-in-out;
-    position: fixed;
-    width: 16rem;
-    top: 0;
-    right: calc(-1 * (17rem + utils.spacing(2)));
-    height: 100%;
-    background: var(--background);
-    padding: utils.spacing(2);
-    overflow-y: scroll;
-    overflow-x: visible;
-    &.open {
-      right: 0;
-    }
+  box-sizing: border-box;
+  @include utils.breakpoint-up('md') {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    height: 100vh;
+  }
+  @include utils.breakpoint-down('md') {
+    padding-bottom: calc(15rem + utils.spacing(2));
   }
 }
