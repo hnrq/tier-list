@@ -20,7 +20,6 @@ const Home: Component<unknown> = () => {
       .on('sortable:stop', (e) => {
         dispatch(
           moveProduct({
-            id: e.dragEvent.originalSource.getAttribute('data-id'),
             from: {
               id: e.oldContainer.getAttribute('data-id'),
               index: e.oldIndex,

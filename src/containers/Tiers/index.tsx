@@ -1,22 +1,63 @@
-import { Component, For, onMount } from 'solid-js';
+import { Component, createMemo, createSignal, For, onMount } from 'solid-js';
 
+import { Sortable } from '@draggable/draggable.es';
+import Modal from 'components/Modal';
 import Product from 'components/Product';
 import Tier from 'components/Tier';
+import AddTierForm from 'containers/AddTierForm';
 import { useTierList } from 'context/tierList';
 import { Product as ProductType } from 'reducers/tierList';
+import { addTier, moveTier } from 'reducers/tierList/actions';
 
 import './index.scss';
 
 const Tiers: Component = () => {
-  const [tierList] = useTierList();
+  const [openTierModal, setOpenTierModal] = createSignal(false);
+  const [tierList, dispatch] = useTierList();
+  let tierContainerRef;
+
+  onMount(() => {
+    new Sortable(tierContainerRef, {
+      draggable: '.tier',
+      delay: 400,
+    })
+      .on('drag:stop', (e) => {
+        e.cancel();
+      })
+      .on('sortable:stop', (e) => {
+        dispatch(
+          moveTier({
+            from: e.oldIndex,
+            to: e.newIndex,
+          })
+        );
+      });
+  });
 
   return (
     <div class="tiers">
+      <Modal
+        open={openTierModal()}
+        onClose={() => setOpenTierModal(false)}
+        size="sm"
+      >
+        <AddTierForm
+          onSubmit={(form) => {
+            dispatch(addTier(form));
+            setOpenTierModal(false);
+          }}
+        />
+      </Modal>
       <div class="tiers__header">
         <h2 class="tiers__title">Tiers</h2>
-        <button class="button button--link">Add Tier</button>
+        <button
+          class="button button--link"
+          onClick={() => setOpenTierModal(true)}
+        >
+          Add Tier
+        </button>
       </div>
-      <div class="tiers__items">
+      <div class="tiers__items" ref={tierContainerRef}>
         <For each={Object.values(tierList.tiers)}>
           {(tier) => (
             <Tier

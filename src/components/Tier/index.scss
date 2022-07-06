@@ -13,6 +13,22 @@
     flex-direction: column;
   }
 
+  &:hover {
+    cursor: grab;
+  }
+
+  &.draggable-mirror {
+    cursor: grabbing;
+    & .product__content {
+      transform: scale(1.1);
+    }
+  }
+
+  &.draggable-source--is-dragging {
+    transform: translateZ(0);
+    opacity: 0.5;
+  }
+
   &__title-container {
     display: flex;
     flex-direction: column;
