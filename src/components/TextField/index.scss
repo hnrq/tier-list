@@ -1,0 +1,25 @@
+@use '../../theme/utils';
+
+.text-field {
+  display: flex;
+  flex-direction: column;
+  gap: utils.spacing(0.5);
+
+  &__input {
+    border: 0;
+    font-size: 0.9rem;
+    height: 2.5rem;
+    background: #f0f0f0;
+    padding: utils.spacing(1) utils.spacing(2);
+    color: var(--text-high);
+    font-weight: 600;
+  }
+
+  &__helper-text {
+    font-size: 0.75rem;
+
+    &--error {
+      color: var(--error-color);
+    }
+  }
+}
