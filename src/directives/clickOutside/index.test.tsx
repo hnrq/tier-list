@@ -4,15 +4,7 @@ import * as directive from '.';
 
 const clickOutside = directive.default;
 
-declare module 'solid-js' {
-  namespace JSX {
-    interface Directives {
-      clickOutside: () => void;
-    }
-  }
-}
-
-describe('directives/clickOutside()', () => {
+describe('use:clickOutside', () => {
   it('calls onOutsideClick callback when clicking outside the element', () => {
     const onClickOutside = vi.fn();
     const screen = render(() => (

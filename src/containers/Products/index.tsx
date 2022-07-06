@@ -7,14 +7,6 @@ import clickOutsideDirective from 'directives/clickOutside';
 
 import './index.scss';
 
-declare module 'solid-js' {
-  namespace JSX {
-    interface Directives {
-      clickOutside: () => void;
-    }
-  }
-}
-
 const clickOutside = clickOutsideDirective;
 
 const Products: Component = () => {
