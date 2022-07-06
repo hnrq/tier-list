@@ -8,6 +8,7 @@
   --base-text-color: 355deg, 0%, 0%;
   --base-spacing: 8px;
   --background: hsl(0 0% 100%);
+  --error-color: hsl(344, 100%, 50%);
   --body-font: 'Overpass', sans-serif;
   @include utils.generate-palette(var(--base-primary-color), 'primary');
   @include utils.generate-text-palette(var(--base-text-color));
@@ -27,6 +28,9 @@ html {
 
 body {
   margin: 0;
+  &.modal--open {
+    overflow: hidden;
+  }
 }
 
 * {
