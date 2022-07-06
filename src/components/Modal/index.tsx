@@ -13,17 +13,19 @@ import './index.scss';
 
 export interface ModalProps {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-  onClose?: () => void;
+  onClose: () => void;
+  fullscreen?: boolean;
   open: boolean;
 }
 
 const Modal: Component<ParentProps<ModalProps>> = (_props) => {
-  const props = mergeProps({ size: 'md' }, _props);
+  const props = mergeProps({ size: 'md', fullscreen: false }, _props);
   let modalRef: HTMLDivElement;
   let animation: anime.AnimeInstance;
 
   createEffect(() => {
-    if (props.open && !animation)
+    if (props.open) {
+      document.body.classList.add('modal--open');
       animation = anime
         .timeline({
           easing: 'easeInOutQuad',
@@ -42,6 +44,7 @@ const Modal: Component<ParentProps<ModalProps>> = (_props) => {
           },
           '-=200'
         );
+    } else document.body.classList.remove('modal--open');
   });
 
   return (
@@ -55,11 +58,12 @@ const Modal: Component<ParentProps<ModalProps>> = (_props) => {
               animation.reverse();
               animation.play();
               await animation.finished;
-              props.onClose?.();
+              props.onClose();
             }}
           />
           <div
             class={`modal__content container-${props.size}`}
+            classList={{ 'modal--fullscreen': props.fullscreen }}
             data-testid="modal__content"
           >
             {props.children}

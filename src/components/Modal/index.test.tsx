@@ -5,7 +5,15 @@ import { fireEvent, render } from 'solid-testing-library';
 import Modal, { ModalProps } from '.';
 
 const renderModal = (props?: Partial<ParentProps<ModalProps>>) =>
-  render(() => <Modal open {...props} />);
+  render(() => (
+    <Modal
+      onClose={() => {
+        return;
+      }}
+      open
+      {...props}
+    />
+  ));
 
 describe('<Modal />', () => {
   it('renders a backdrop', () => {
@@ -20,7 +28,7 @@ describe('<Modal />', () => {
     expect(children).toBeInTheDocument();
   });
 
-  it('does not render anything if props.open = false', () => {
+  it('does not render anything if props.open === false', () => {
     const { queryByTestId } = renderModal({ open: false });
     expect(queryByTestId('modal__content')).not.toBeInTheDocument();
   });
@@ -40,5 +48,16 @@ describe('<Modal />', () => {
 
       expect(onClose).toHaveBeenCalled();
     });
+  });
+
+  it('adds modal--fullscreen modifier class if props.fullscreen === true', () => {
+    const { getByTestId } = renderModal({ fullscreen: true });
+
+    expect(getByTestId('modal__content')).toHaveClass('modal--fullscreen');
+  });
+
+  it('adds modal--open class to body when modal is opened', () => {
+    renderModal({ open: true });
+    expect(document.body).toHaveClass('modal--open');
   });
 });
