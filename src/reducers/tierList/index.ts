@@ -49,23 +49,15 @@ export default createReducer(initialState, (builder) => {
         );
     })
     .addCase(actions.moveProduct, (state, action) => {
-      const { id, from, to } = action.payload;
+      const { from, to } = action.payload;
       let productToBeMoved;
 
       if (from.id === 'unranked') {
-        state.unrankedProducts = state.unrankedProducts
-          .map((product) => {
-            if (product.id === id) productToBeMoved = product;
-            else return product;
-          })
-          .filter(Boolean);
+        productToBeMoved = state.unrankedProducts[from.index];
+        state.unrankedProducts.splice(from.index, 1);
       } else {
-        state.tiers[from.id].items = state.tiers[from.id].items
-          .map((product) => {
-            if (product.id === id) productToBeMoved = product;
-            else return product;
-          })
-          .filter(Boolean);
+        productToBeMoved = state.tiers[from.id].items[from.index];
+        state.tiers[from.id].items.splice(from.index, 1);
       }
 
       if (to.id === 'unranked')
@@ -85,5 +77,14 @@ export default createReducer(initialState, (builder) => {
       const { title, label } = action.payload;
       const id = shortId.generate();
       state.tiers[id] = { id, title, label, items: [] };
+    })
+    .addCase(actions.moveTier, (state, action) => {
+      const { from, to } = action.payload;
+      const tiers = Object.entries(state.tiers);
+      const movedTier = tiers[from];
+      tiers.splice(from, 1);
+      tiers.splice(to, 0, movedTier);
+
+      state.tiers = Object.fromEntries(tiers);
     });
 });

@@ -5,7 +5,7 @@ import reducer from '.';
 import * as actions from './actions';
 
 describe('reducers/tierList()', () => {
-  it('handles ADD_PRODUCT action by adding a product to unranked products', () => {
+  it('handles tierList/addProduct action by adding a product to unranked products', () => {
     const productToBeAdded = products[0];
     expect(
       reducer(
@@ -21,7 +21,7 @@ describe('reducers/tierList()', () => {
     });
   });
 
-  describe('handles REMOVE_PRODUCT', () => {
+  describe('handles tierList/removeProduct action', () => {
     it("removes a product from unranked products if 'unranked' is provided", () => {
       const { id } = products[10];
       const result = reducer(
@@ -56,7 +56,7 @@ describe('reducers/tierList()', () => {
     });
   });
 
-  it('handles ADD_TIER action by adding a new tier', () => {
+  it('handles tierList/removeTier action', () => {
     const tierToBeAdded = Object.values(tiers)[0];
     const result = reducer(
       {
@@ -72,7 +72,7 @@ describe('reducers/tierList()', () => {
     expect(Object.values(result.tiers)[0].title).toEqual(tierToBeAdded.title);
   });
 
-  it('handles REMOVE_TIER action by removing a tier', () => {
+  it('handles tierList/removeTier action', () => {
     const tierId = Object.keys(tiers)[2];
     const result = reducer(
       {
@@ -88,7 +88,7 @@ describe('reducers/tierList()', () => {
     expect(result.tiers).not.toHaveProperty(tierId);
   });
 
-  describe('handles MOVE_PRODUCT', () => {
+  describe('handles tierList/moveProduct action', () => {
     it('moves to unranked if unranked is provided as target', () => {
       const [tierId, tier] = Object.entries(tiers)[0];
       const productsInTier = products.slice(0, 5);
@@ -178,5 +178,21 @@ describe('reducers/tierList()', () => {
       );
       expect(result.tiers[secondTierId].items[index]).toEqual(product);
     });
+  });
+
+  it('handles tierList/moveTier action', () => {
+    const productsInTier = products.slice(0, 5);
+    const from = 2;
+    const to = 4;
+    const tier = Object.values(tiers)[from];
+    const result = reducer(
+      {
+        tiers,
+        unrankedProducts: [],
+      },
+      actions.moveTier({ from, to })
+    );
+
+    expect(Object.values(result.tiers)[to]).toEqual(tier);
   });
 });
