@@ -3,6 +3,7 @@
 .product {
   max-width: 6.5rem;
   height: 8rem;
+  user-select: none;
 
   @include utils.add-shadow('product__content');
 
