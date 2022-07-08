@@ -10,13 +10,13 @@ describe('reducers/tierList()', () => {
     expect(
       reducer(
         {
-          tiers: {},
+          tiers: [],
           unrankedProducts: [],
         },
         actions.addProducts({ products: [productToBeAdded] })
       )
     ).toEqual({
-      tiers: {},
+      tiers: [],
       unrankedProducts: [productToBeAdded],
     });
   });
@@ -25,42 +25,38 @@ describe('reducers/tierList()', () => {
     it("removes a product from unranked products if 'unranked' is provided", () => {
       const { id } = products[10];
       const result = reducer(
-        { tiers: {}, unrankedProducts: products },
+        { tiers: [], unrankedProducts: products },
         actions.removeProduct({ id, from: 'unranked' })
       );
 
-      expect(Object.keys(result.unrankedProducts)).toHaveLength(
-        Object.keys(products).length - 1
-      );
+      expect(result.unrankedProducts).toHaveLength(products.length - 1);
     });
 
     it('removes a product from a rank if an ID is provided', () => {
       const { id } = products[10];
-      const [key, tier] = Object.entries(tiers)[0];
+      const tier = tiers[0];
       const result = reducer(
         {
-          tiers: {
-            [key]: {
+          tiers: [
+            {
               ...tier,
               items: products,
             },
-          },
+          ],
           unrankedProducts: [],
         },
-        actions.removeProduct({ id, from: key })
+        actions.removeProduct({ id, from: tier.id })
       );
 
-      expect(Object.keys(result.tiers[key].items)).toHaveLength(
-        Object.keys(products).length - 1
-      );
+      expect(result.tiers[0].items).toHaveLength(products.length - 1);
     });
   });
 
-  it('handles tierList/removeTier action', () => {
-    const tierToBeAdded = Object.values(tiers)[0];
+  it('handles tierList/addTier action', () => {
+    const tierToBeAdded = tiers[0];
     const result = reducer(
       {
-        tiers: {},
+        tiers: [],
         unrankedProducts: [],
       },
       actions.addTier({
@@ -68,120 +64,96 @@ describe('reducers/tierList()', () => {
         label: tierToBeAdded.label,
       })
     );
-    expect(Object.values(result.tiers)[0].label).toEqual(tierToBeAdded.label);
-    expect(Object.values(result.tiers)[0].title).toEqual(tierToBeAdded.title);
+    expect(result.tiers[0].label).toEqual(tierToBeAdded.label);
+    expect(result.tiers[0].title).toEqual(tierToBeAdded.title);
   });
 
   it('handles tierList/removeTier action', () => {
-    const tierId = Object.keys(tiers)[2];
+    const { id } = tiers[2];
     const result = reducer(
       {
         tiers,
         unrankedProducts: [],
       },
-      actions.removeTier({ id: tierId })
+      actions.removeTier({ id })
     );
 
-    expect(Object.keys(result.tiers)).toHaveLength(
-      Object.keys(tiers).length - 1
-    );
-    expect(result.tiers).not.toHaveProperty(tierId);
+    expect(result.tiers).toHaveLength(tiers.length - 1);
+    expect(result.tiers[2].id).not.toBe(id);
   });
 
   describe('handles tierList/moveProduct action', () => {
     it('moves to unranked if unranked is provided as target', () => {
-      const [tierId, tier] = Object.entries(tiers)[0];
+      const tiersAvailable = tiers.slice(0, 2);
       const productsInTier = products.slice(0, 5);
       const index = 2;
       const product = productsInTier[index];
       const result = reducer(
         {
-          tiers: {
-            [tierId]: {
-              ...tier,
-              items: productsInTier,
-            },
-          },
+          tiers: [...tiersAvailable, { ...tiers[3], items: productsInTier }],
           unrankedProducts: [],
         },
         actions.moveProduct({
-          id: product.id,
-          from: { id: tierId, index },
+          from: { id: tiers[3].id, index },
           to: { id: 'unranked', index },
         })
       );
-
-      expect(Object.keys(result.tiers[tierId].items)).toHaveLength(
-        productsInTier.length - 1
-      );
+      expect(result.tiers[2].items).toHaveLength(productsInTier.length - 1);
       expect(result.unrankedProducts[0]).toEqual(product);
     });
 
     it('moves from unranked if unranked is provided as source', () => {
-      const [tierId, tier] = Object.entries(tiers)[0];
+      const tier = tiers[0];
       const productsInTier = products.slice(0, 5);
       const index = 2;
       const product = productsInTier[index];
       const result = reducer(
         {
-          tiers: {
-            [tierId]: {
+          tiers: [
+            {
               ...tier,
               items: [],
             },
-          },
+          ],
           unrankedProducts: productsInTier,
         },
         actions.moveProduct({
-          id: product.id,
           from: { id: 'unranked', index },
-          to: { id: tierId, index },
+          to: { id: tier.id, index },
         })
       );
 
-      expect(Object.keys(result.unrankedProducts)).toHaveLength(
-        productsInTier.length - 1
-      );
-      expect(result.tiers[tierId].items[0]).toEqual(product);
+      expect(result.unrankedProducts).toHaveLength(productsInTier.length - 1);
+      expect(result.tiers[0].items[0]).toEqual(product);
     });
 
     it('moves between tiers', () => {
-      const [firstTierId, firstTier] = Object.entries(tiers)[0];
-      const [secondTierId, secondTier] = Object.entries(tiers)[1];
+      const firstTier = tiers[0];
+      const secondTier = tiers[1];
       const productsInTier = products.slice(0, 5);
       const productsInTierTwo = products.slice(5, 10);
       const index = 2;
       const product = productsInTier[index];
       const result = reducer(
         {
-          tiers: {
-            [firstTierId]: {
-              ...firstTier,
-              items: productsInTier,
-            },
-            [secondTierId]: {
-              ...secondTier,
-              items: productsInTierTwo,
-            },
-          },
+          tiers: [
+            { ...firstTier, items: productsInTier },
+            { ...secondTier, items: productsInTierTwo },
+          ],
           unrankedProducts: [],
         },
         actions.moveProduct({
-          id: product.id,
-          from: { id: firstTierId, index },
-          to: { id: secondTierId, index },
+          from: { id: firstTier.id, index },
+          to: { id: secondTier.id, index },
         })
       );
 
-      expect(Object.keys(result.tiers[firstTierId])).toHaveLength(
-        productsInTier.length - 1
-      );
-      expect(result.tiers[secondTierId].items[index]).toEqual(product);
+      expect(result.tiers[0].items).toHaveLength(productsInTier.length - 1);
+      expect(result.tiers[1].items[index]).toEqual(product);
     });
   });
 
   it('handles tierList/moveTier action', () => {
-    const productsInTier = products.slice(0, 5);
     const from = 2;
     const to = 4;
     const tier = Object.values(tiers)[from];

@@ -22,8 +22,6 @@
 
   &__items {
     overflow-y: auto;
-    display: flex;
-    flex-direction: column;
   }
 
   @include utils.breakpoint-down('md') {

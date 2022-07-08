@@ -22,7 +22,7 @@ export interface Product {
 }
 
 export interface TierList {
-  tiers: Record<string, Tier>;
+  tiers: Tier[];
   unrankedProducts: Product[];
 }
 
@@ -43,48 +43,51 @@ export default createReducer(initialState, (builder) => {
         state.unrankedProducts = state.unrankedProducts.filter(
           (product) => product.id !== id
         );
-      else
-        state.tiers[from].items = state.tiers[from].items.filter(
+      else {
+        const tierIndex = state.tiers.findIndex((tier) => tier.id === from);
+        state.tiers[tierIndex].items = state.tiers[tierIndex].items.filter(
           (product) => product.id !== id
         );
+      }
     })
     .addCase(actions.moveProduct, (state, action) => {
       const { from, to } = action.payload;
       let productToBeMoved;
-
       if (from.id === 'unranked') {
         productToBeMoved = state.unrankedProducts[from.index];
         state.unrankedProducts.splice(from.index, 1);
       } else {
-        productToBeMoved = state.tiers[from.id].items[from.index];
-        state.tiers[from.id].items.splice(from.index, 1);
+        const tierIndex = state.tiers.findIndex((tier) => tier.id === from.id);
+        productToBeMoved = state.tiers[tierIndex].items[from.index];
+        state.tiers[tierIndex].items.splice(from.index, 1);
       }
 
       if (to.id === 'unranked')
         state.unrankedProducts.splice(to.index, 0, productToBeMoved);
-      else state.tiers[to.id].items.splice(to.index, 0, productToBeMoved);
+      else {
+        const tierIndex = state.tiers.findIndex((tier) => tier.id === to.id);
+        state.tiers[tierIndex].items.splice(to.index, 0, productToBeMoved);
+      }
     })
     .addCase(actions.removeTier, (state, action) => {
       const { id } = action.payload;
+      const tierIndex = state.tiers.findIndex((tier) => tier.id === id);
 
       state.unrankedProducts = {
-        ...state.tiers[id].items,
+        ...state.tiers[tierIndex].items,
         ...state.unrankedProducts,
       };
-      delete state.tiers[id];
+
+      state.tiers.splice(tierIndex, 1);
     })
     .addCase(actions.addTier, (state, action) => {
       const { title, label } = action.payload;
       const id = shortId.generate();
-      state.tiers[id] = { id, title, label, items: [] };
+      state.tiers.push({ id, title, label, items: [] });
     })
     .addCase(actions.moveTier, (state, action) => {
       const { from, to } = action.payload;
-      const tiers = Object.entries(state.tiers);
-      const movedTier = tiers[from];
-      tiers.splice(from, 1);
-      tiers.splice(to, 0, movedTier);
-
-      state.tiers = Object.fromEntries(tiers);
+      const [movedTier] = state.tiers.splice(from, 1);
+      state.tiers.splice(to, 0, movedTier);
     });
 });

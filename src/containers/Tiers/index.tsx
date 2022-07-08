@@ -1,4 +1,4 @@
-import { Component, createMemo, createSignal, For, onMount } from 'solid-js';
+import { Component, createSignal, For, onMount } from 'solid-js';
 
 import { Sortable } from '@draggable/draggable.es';
 import Modal from 'components/Modal';
@@ -58,7 +58,7 @@ const Tiers: Component = () => {
         </button>
       </div>
       <div class="tiers__items" ref={tierContainerRef}>
-        <For each={Object.values(tierList.tiers)}>
+        <For each={tierList.tiers}>
           {(tier) => (
             <Tier
               renderItem={(product: ProductType) => (
