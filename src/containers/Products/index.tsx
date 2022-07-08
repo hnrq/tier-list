@@ -35,8 +35,19 @@ const Products: Component = () => {
         <h2 class="products__title">Products</h2>
         <button class="button button--link">Add Products</button>
       </div>
-      <div class="products__container" data-id="unranked" ref={productsRef}>
-        <For each={tierList.unrankedProducts}>
+      <div
+        class="products__container"
+        data-id="unranked"
+        ref={productsRef}
+        classList={{
+          'products__container--no-products':
+            tierList.unrankedProducts.length === 0,
+        }}
+      >
+        <For
+          each={tierList.unrankedProducts}
+          fallback={<div class="products__no-products">No products added.</div>}
+        >
           {(product) => <Product draggable {...product} />}
         </For>
       </div>
