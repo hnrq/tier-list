@@ -7,9 +7,7 @@ import TextField, { TextFieldProps } from '.';
 const renderTextField = (props: Partial<TextFieldProps>) => {
   const { validate } = useForm();
 
-  return render(() => (
-    <TextField validate={validate} validations={[]} {...props} />
-  ));
+  return render(() => <TextField validate={validate([])} {...props} />);
 };
 
 describe('<TextField />', () => {
