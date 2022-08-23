@@ -13,17 +13,12 @@ const renderAddTierForm = (props?: Partial<AddTierFormProps>) =>
   ));
 
 describe('<AddTierForm />', () => {
-  it('renders a title', () => {
-    const { getByText } = renderAddTierForm();
-    expect(getByText('Add Tier')).toBeInTheDocument();
-  });
-
-  it('renders a text field for the newly added tier title', () => {
+  it('renders a text field for the tier title', () => {
     const { getByPlaceholderText } = renderAddTierForm();
     expect(getByPlaceholderText('Tier title')).toBeInTheDocument();
   });
 
-  it('renders a text field for the newly added tier label', () => {
+  it('renders a text field for the tier label', () => {
     const { getByPlaceholderText } = renderAddTierForm();
     expect(getByPlaceholderText('Tier label')).toBeInTheDocument();
   });
@@ -47,7 +42,7 @@ describe('<AddTierForm />', () => {
     fireEvent.input(getByPlaceholderText('Tier label') as HTMLInputElement, {
       target: { value: label },
     });
-    fireEvent.click(getByText('Create Tier') as HTMLButtonElement);
+    fireEvent.click(getByText('Add Tier') as HTMLButtonElement);
 
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledWith({ title, label });

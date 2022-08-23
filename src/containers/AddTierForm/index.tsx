@@ -1,6 +1,4 @@
-import { Component, Show } from 'solid-js';
-
-import classNames from 'classnames';
+import { Component } from 'solid-js';
 
 import TextField from 'components/TextField';
 import { useForm } from 'hooks/useForm';
@@ -19,8 +17,7 @@ export interface AddTierFormProps {
 const AddTierForm: Component<AddTierFormProps> = (props) => {
   const { validate, formSubmit, errors } = useForm();
   return (
-    <form class="add-tier-form mb-3" use:formSubmit={props.onSubmit}>
-      <h2 class="add-tier-form__title">Add Tier</h2>
+    <form class="add-tier-form  pt-0 px-2 mb-3" use:formSubmit={props.onSubmit}>
       <TextField
         class="mb-2"
         placeholder="Tier title"
@@ -47,7 +44,7 @@ const AddTierForm: Component<AddTierFormProps> = (props) => {
         class="button button--contained button--full-width button--large"
         type="submit"
       >
-        Create Tier
+        Add Tier
       </button>
     </form>
   );
