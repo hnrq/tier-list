@@ -1,6 +1,7 @@
 import { Component, createSignal, For, onMount } from 'solid-js';
 
-import { Sortable } from '@draggable/draggable.es';
+import { Sortable } from '@hnrq/draggable';
+
 import Modal from 'components/Modal';
 import Product from 'components/Product';
 import Tier from 'components/Tier';
@@ -19,10 +20,10 @@ const Tiers: Component = () => {
   onMount(() => {
     new Sortable(tierContainerRef, {
       draggable: '.tier',
-      delay: 400,
+      delay: 500,
     })
       .on('drag:stop', (e) => {
-        e.cancel();
+        e.preventDefault();
       })
       .on('sortable:stop', (e) => {
         dispatch(
@@ -41,6 +42,7 @@ const Tiers: Component = () => {
         onClose={() => setOpenTierModal(false)}
         size="sm"
       >
+        <h2 class="ml-2">Add Tier</h2>
         <AddTierForm
           onSubmit={(form) => {
             dispatch(addTier(form));

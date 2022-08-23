@@ -1,4 +1,4 @@
-import { Component, VoidProps } from 'solid-js';
+import { Component } from 'solid-js';
 
 import { SortableProvider } from 'context/sortable';
 import { TierListProvider } from 'context/tierList';
@@ -16,7 +16,7 @@ declare module 'solid-js' {
 }
 
 const App: Component = () => (
-  <SortableProvider options={{ draggable: '.product--draggable' }}>
+  <SortableProvider options={{ draggable: '.product--draggable', delay: 150 }}>
     <TierListProvider>
       <Home />
     </TierListProvider>

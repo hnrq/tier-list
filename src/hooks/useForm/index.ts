@@ -33,6 +33,12 @@ export const useForm = () => {
   const [errors, setErrors] = createStore<Record<string, string>>({});
   const fields = {};
 
+  const reset = () => {
+    for (const field in fields) {
+      fields[field].element.value = '';
+    }
+  };
+
   const validate =
     (validators?: validateFn[]) => (element: HTMLInputElement) => {
       fields[element.name] = { element, validators };
@@ -76,5 +82,5 @@ export const useForm = () => {
     };
   };
 
-  return { validate, formSubmit, errors };
+  return { validate, formSubmit, errors, reset };
 };

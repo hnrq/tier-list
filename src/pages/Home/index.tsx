@@ -15,17 +15,17 @@ const Home: Component<unknown> = () => {
   onMount(() => {
     sortable()
       .on('drag:stop', (e) => {
-        e.cancel();
+        e.preventDefault();
       })
       .on('sortable:stop', (e) => {
         dispatch(
           moveProduct({
             from: {
-              id: e.oldContainer.getAttribute('data-id'),
+              id: e.oldContainer.dataset.id,
               index: e.oldIndex,
             },
             to: {
-              id: e.newContainer.getAttribute('data-id'),
+              id: e.newContainer.dataset.id,
               index: e.newIndex,
             },
           })
