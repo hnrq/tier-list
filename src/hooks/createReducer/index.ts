@@ -7,9 +7,9 @@ export type ActionType = Record<string, unknown> & {
 
 export type ReducerType<T> = (state: T, action: ActionType) => T;
 
-const useReducer = <T>(
+const createReducer = <T extends object>(
   reducer: ReducerType<T>,
-  state: T
+  state?: T
 ): [T, (action: ActionType) => void] => {
   const [store, setStore] = createStore<T>(state);
   const dispatch = (action: ActionType) => {
@@ -19,4 +19,4 @@ const useReducer = <T>(
   return [store, dispatch];
 };
 
-export default useReducer;
+export default createReducer;

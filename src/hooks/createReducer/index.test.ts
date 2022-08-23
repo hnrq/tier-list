@@ -1,12 +1,12 @@
 import * as store from 'solid-js/store';
 
-import useReducer, { ActionType, ReducerType } from '.';
+import createReducer, { ActionType, ReducerType } from '.';
 
-describe('hooks/useReducer()', () => {
+describe('hooks/createReducer()', () => {
   it('creates a store with the provided initial state', () => {
     const spy = vi.spyOn(store, 'createStore');
     const initialState = {};
-    useReducer<Record<string, string>>((state) => state, initialState);
+    createReducer<Record<string, string>>((state) => state, initialState);
 
     expect(spy).toHaveBeenCalledWith(initialState);
   });
@@ -15,7 +15,7 @@ describe('hooks/useReducer()', () => {
     it('returns a dispatch function that calls the reducer with a provided action', () => {
       const action = { type: 'action', payload: { key: 'value' } };
       const reducerFn = vi.fn();
-      const reducer = useReducer<Record<string, string>>(reducerFn, {});
+      const reducer = createReducer<Record<string, string>>(reducerFn, {});
       reducer[1](action);
       expect(reducerFn).toHaveBeenCalledWith({}, action);
     });
@@ -26,9 +26,12 @@ describe('hooks/useReducer()', () => {
         state,
         action: ActionType
       ) => ({ ...state, ...action.payload });
-      const [state, dispatch] = useReducer<Record<string, unknown>>(reducerFn, {
-        initialKey: 'initialValue',
-      });
+      const [state, dispatch] = createReducer<Record<string, unknown>>(
+        reducerFn,
+        {
+          initialKey: 'initialValue',
+        }
+      );
       dispatch(mockAction);
       expect(state).toEqual({ initialKey: 'initialValue', key: 'value' });
     });
