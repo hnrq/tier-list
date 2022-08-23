@@ -1,16 +1,24 @@
-import { Component, createMemo, mergeProps, Show } from 'solid-js';
+import { Component, createMemo, JSXElement, mergeProps, Show } from 'solid-js';
 
 import { Product as ProductType } from 'reducers/tierList';
 
 import './index.scss';
 
-export interface ProductProps extends ProductType {
+export interface ProductProps
+  extends Pick<
+    ProductType,
+    'title' | 'id' | 'originalPrice' | 'images' | 'store'
+  > {
   draggable?: boolean;
+  action?: {
+    label: string | JSXElement;
+    onClick: (e: MouseEvent) => void;
+  };
 }
 
 const Product: Component<ProductProps> = (_props) => {
   const props = mergeProps({ draggable: false }, _props);
-  const price = createMemo(() => props.price.toString().split('.'));
+  const price = createMemo(() => props.originalPrice.max.toString().split('.'));
 
   return (
     <div
@@ -21,10 +29,21 @@ const Product: Component<ProductProps> = (_props) => {
       }}
     >
       <div class="product__content">
-        <img class="product__image" src={props.image} />
+        <Show when={props.action !== undefined}>
+          <div
+            role="button"
+            class="product__action"
+            onClick={(e) => {
+              props.action?.onClick(e);
+            }}
+          >
+            {props.action?.label}
+          </div>
+        </Show>
+        <img class="product__image" src={props.images[0]} />
         <div>
-          <span class="product__name">{props.name}</span>
-          <span class="product__vendor">{props.vendor}</span>
+          <span class="product__name">{props.title}</span>
+          <span class="product__store">{props.store}</span>
         </div>
         <div class="product__price">
           <span class="product__dollar-sign">$</span>

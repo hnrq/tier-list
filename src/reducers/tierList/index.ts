@@ -1,7 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import shortId from 'shortid';
 
-import mockProducts from '__mocks__/products';
 import mockTiers from '__mocks__/tiers';
 
 import * as actions from './actions';
@@ -15,10 +14,29 @@ export interface Tier {
 
 export interface Product {
   id: string;
-  image: string;
-  name: string;
-  price: number;
-  vendor: string;
+  images: string[];
+  title: string;
+  categoryId: string;
+  store: string;
+  ratings: {
+    totalStar: number;
+    averageStar: number;
+    totalStartCount: number;
+    fiveStarCount: number;
+    fourStarCount: number;
+    threeStarCount: number;
+    twoStarCount: number;
+    oneStarCount: number;
+  };
+  currency: string;
+  originalPrice: {
+    min: number;
+    max: number;
+  };
+  salePrice?: {
+    min: number;
+    max: number;
+  };
 }
 
 export interface TierList {
@@ -26,16 +44,26 @@ export interface TierList {
   unrankedProducts: Product[];
 }
 
-export const initialState: TierList = {
+export const initialState = JSON.parse(localStorage.getItem('tier-list')) ?? {
   tiers: mockTiers,
-  unrankedProducts: mockProducts,
+  unrankedProducts: [],
 };
 
 export default createReducer(initialState, (builder) => {
   builder
     .addCase(actions.addProducts, (state, action) => {
       const { products } = action.payload;
-      state.unrankedProducts = [...state.unrankedProducts, ...products];
+      const productsToBeAdded = products.filter(
+        (productToBeAdded) =>
+          state.unrankedProducts.findIndex(
+            (product) => product.id === productToBeAdded.id
+          ) === -1
+      );
+
+      state.unrankedProducts = [
+        ...productsToBeAdded,
+        ...state.unrankedProducts,
+      ];
     })
     .addCase(actions.removeProduct, (state, action) => {
       const { from, id } = action.payload;

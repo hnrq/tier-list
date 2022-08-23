@@ -1,13 +1,13 @@
 import { Component, createContext, ParentProps, useContext } from 'solid-js';
 
-import useReducer, { ActionType } from 'hooks/useReducer';
+import createReducer, { ActionType } from 'hooks/createReducer';
 import tierList, { initialState, TierList } from 'reducers/tierList';
 
 export const TierListContext =
   createContext<[TierList, (action: ActionType) => void]>();
 
 export const TierListProvider: Component<ParentProps<unknown>> = (props) => {
-  const [store, dispatch] = useReducer<TierList>(tierList, initialState);
+  const [store, dispatch] = createReducer<TierList>(tierList, initialState);
 
   return (
     <TierListContext.Provider value={[store, dispatch]}>

@@ -5,7 +5,7 @@ import reducer from '.';
 import * as actions from './actions';
 
 describe('reducers/tierList()', () => {
-  it('handles tierList/addProduct action by adding a product to unranked products', () => {
+  it('handles tierList/addProducts action by adding a product to unranked products', () => {
     const productToBeAdded = products[0];
     expect(
       reducer(

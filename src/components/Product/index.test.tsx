@@ -1,4 +1,4 @@
-import { render } from 'solid-testing-library';
+import { fireEvent, render } from 'solid-testing-library';
 
 import Product, { ProductProps } from '.';
 
@@ -6,10 +6,10 @@ const renderProduct = (props: Partial<ProductProps>) =>
   render(() => (
     <Product
       id="1"
-      image="https://picsum.photos/200/300"
-      name="Product"
-      vendor="Vendor"
-      price={99.99}
+      images={['https://picsum.photos/200/300']}
+      title="Product"
+      store="Vendor"
+      originalPrice={{ min: 99.99, max: 99.99 }}
       {...props}
     />
   ));
@@ -17,40 +17,57 @@ const renderProduct = (props: Partial<ProductProps>) =>
 describe('<Product />', () => {
   it('renders a product image', () => {
     const image = 'https://image.url/';
-    const { getByRole } = renderProduct({ image });
+    const { getByRole } = renderProduct({ images: [image] });
 
     expect(getByRole('img')).toHaveAttribute('src', image);
   });
 
-  it('renders the product name', () => {
-    const name = 'Product name';
-    const { getByText } = renderProduct({ name });
+  it('renders the product title', () => {
+    const title = 'Product title';
+    const { getByText } = renderProduct({ title });
 
-    expect(getByText(name)).toBeInTheDocument();
+    expect(getByText(title)).toBeInTheDocument();
   });
 
-  it('renders the vendor name', () => {
-    const vendor = 'Product vendor';
-    const { getByText } = renderProduct({ vendor });
+  it('renders the store name', () => {
+    const store = 'Product store';
+    const { getByText } = renderProduct({ store });
 
-    expect(getByText(vendor)).toBeInTheDocument();
+    expect(getByText(store)).toBeInTheDocument();
   });
 
   describe('price', () => {
     it('renders the dollar price', () => {
       const price = 10.99;
-      const { getByText } = renderProduct({ price });
+      const { getByText } = renderProduct({
+        originalPrice: { min: price, max: price },
+      });
 
       expect(getByText(price.toString().split('.')[0])).toBeInTheDocument();
     });
 
-    it('renders the cents', () => {
+    it('renders the dollar price', () => {
       const price = 10.99;
-      const { getByText } = renderProduct({ price });
+      const { getByText } = renderProduct({
+        originalPrice: { min: price, max: price },
+      });
 
-      expect(
-        getByText(`.${price.toString().split('.')[1]}`)
-      ).toBeInTheDocument();
+      expect(getByText(price.toString().split('.')[0])).toBeInTheDocument();
+    });
+  });
+
+  describe('action', () => {
+    it('renders', () => {
+      const action = { label: 'Action', onClick: vi.fn() };
+      const { getByText } = renderProduct({ action });
+      expect(getByText(action.label)).toBeInTheDocument();
+    });
+
+    it('fires a callback on click', () => {
+      const action = { label: 'Action', onClick: vi.fn() };
+      const { getByText } = renderProduct({ action });
+      fireEvent.click(getByText(action.label) as HTMLButtonElement);
+      expect(action.onClick).toHaveBeenCalled();
     });
   });
 });

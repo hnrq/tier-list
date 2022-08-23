@@ -8,11 +8,7 @@
     "esModuleInterop": true,
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
-    "types": [
-      "vite/client",
-      "vitest/globals",
-      "@testing-library/jest-dom",
-      "@draggable"
-    ]
+    "skipLibCheck": true,
+    "types": ["vite/client", "vitest/globals", "@testing-library/jest-dom"]
   }
 }

@@ -1,8 +1,11 @@
 @use '../../theme/utils';
 
+$card-height: 8rem;
+$card-border: 4px;
+
 .product {
   max-width: 6.5rem;
-  height: 8rem;
+  height: $card-height;
   user-select: none;
 
   @include utils.add-shadow('product__content');
@@ -26,9 +29,10 @@
   }
 
   &__content {
-    border: 4px solid var(--text-high);
+    position: relative;
+    border: $card-border solid var(--text-high);
     box-sizing: border-box;
-    height: 8rem;
+    height: $card-height;
     display: flex;
     flex-direction: column;
     background: var(--background);
@@ -51,8 +55,13 @@
     overflow: hidden;
   }
 
-  &__vendor {
+  &__store {
     font-size: 0.75rem;
+    max-height: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
     color: var(--text-medium);
   }
 
@@ -75,5 +84,19 @@
 
   &__cents {
     font-size: 0.75rem;
+  }
+
+  &__action {
+    &:hover {
+      cursor: pointer;
+    }
+    position: absolute;
+    height: 22px;
+    width: 22px;
+    right: -$card-border;
+    top: -$card-border;
+    background: var(--text-high);
+    color: var(--background);
+    font-size: 1rem;
   }
 }
