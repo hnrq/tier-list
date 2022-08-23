@@ -24,6 +24,14 @@ export default defineConfig({
     threads: false,
     isolate: false,
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://products-scraper-api.herokuapp.com',
+        changeOrigin: true,
+      },
+    },
+  },
   build: {
     target: 'esnext',
     polyfillDynamicImport: false,
