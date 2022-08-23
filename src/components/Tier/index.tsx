@@ -1,8 +1,8 @@
-import { Component, For, JSXElement, onMount } from 'solid-js';
+import { Component, createMemo, For, JSXElement, onMount } from 'solid-js';
 
 import { useSortable } from 'context/sortable';
 import { Tier as TierType } from 'reducers/tierList';
-import { randomColor } from 'utils';
+import { getContrastYIQ, randomColor } from 'utils';
 
 import './index.scss';
 
@@ -15,6 +15,7 @@ export interface TierProps extends Omit<TierType, 'items'> {
 // TODO: @hnrq make Tier editable
 const Tier: Component<TierProps> = (props) => {
   const sortable = useSortable();
+  const backgroundColor = createMemo(() => props.color ?? randomColor());
   let itemContainerRef;
 
   onMount(() => {
@@ -24,7 +25,10 @@ const Tier: Component<TierProps> = (props) => {
     <div class="tier">
       <div
         class="tier__title-container"
-        style={{ 'background-color': props.color ?? randomColor() }}
+        style={{
+          'background-color': backgroundColor(),
+          color: getContrastYIQ(backgroundColor()),
+        }}
       >
         <span class="tier__title">{props.title}</span>
         <span class="tier__label">{props.label}</span>
