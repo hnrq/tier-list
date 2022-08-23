@@ -22,16 +22,11 @@ describe('<Products />', () => {
     expect(getByText('Products')).toBeInTheDocument();
   });
 
-  it('renders a button to add new products', () => {
-    const { getByText } = renderProducts();
-    expect(getByText('Add Products')).toBeInTheDocument();
-  });
-
   it('renders products from reducer', () => {
     const { getByText } = renderProducts();
 
     mockProducts.forEach((product) => {
-      expect(getByText(product.name)).toBeInTheDocument();
+      expect(getByText(product.title)).toBeInTheDocument();
     });
   });
 

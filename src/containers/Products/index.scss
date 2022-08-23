@@ -21,7 +21,14 @@
 
   &__header {
     display: flex;
-    gap: utils.spacing(1);
+    @include utils.breakpoint-down('md') {
+      align-items: center;
+      gap: utils.spacing(1);
+    }
+    @include utils.breakpoint-up('md') {
+      flex-direction: column;
+      margin-bottom: utils.spacing(1);
+    }
   }
 
   &__no-products {
