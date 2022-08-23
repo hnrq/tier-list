@@ -1,0 +1,31 @@
+@use '../../theme/utils';
+
+.add-product-form {
+  display: flex;
+  align-items: stretch;
+
+  .text-field {
+    position: relative;
+    flex: 1;
+  }
+
+  .text-field__input,
+  .button {
+    height: 2rem;
+  }
+
+  .text-field__helper-text {
+    position: absolute;
+    bottom: calc(-1 * utils.spacing(2));
+  }
+
+  @include utils.breakpoint-up('md') {
+    .button {
+      width: 2rem;
+    }
+  }
+
+  .text-field__input {
+    font-size: 0.75rem;
+  }
+}
